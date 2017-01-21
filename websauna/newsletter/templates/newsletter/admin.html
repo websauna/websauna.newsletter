@@ -1,0 +1,34 @@
+{# Template for home view #}
+
+{% extends "site/base.html" %}
+
+{% block extra_head %}
+  <style>
+  .form-group {
+    margin-left: 20px;
+  }
+
+  label, .btn {
+    margin-left: -20px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 800px;
+  }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+  <h1 id="heading-newsletter-admin">Newsletter admin</h1>
+
+  {{ rendered_form|safe }}
+
+  <h2>Newsletter preview</h2>
+
+  <p>Sending to <strong>{{ user_count }}</strong> users. Last sent was <strong>{{ state.get_last_send_timestamp() }}</strong>.</p>
+  <iframe src="{{ preview_url }}"></iframe>
+
+{% endblock %}

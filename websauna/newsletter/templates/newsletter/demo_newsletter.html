@@ -1,0 +1,8 @@
+{# Some dummy content to fill in the news letter #}
+<h1>This is a demo newsletter</h1>
+
+{% for u in users %}
+  <div>
+    User {{ u.friendly_name }}, created {{ u.created_at }}
+  </div>
+{% endfor %}
