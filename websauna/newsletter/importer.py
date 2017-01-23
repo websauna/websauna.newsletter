@@ -1,8 +1,13 @@
 """User state management."""
+import logging
+
 from websauna.system.model.retry import ensure_transactionless
 from websauna.system.user.models import User
 
 from .mailgun import Mailgun
+
+
+logger = logging.getLogger(__name__)
 
 
 def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -> bool:

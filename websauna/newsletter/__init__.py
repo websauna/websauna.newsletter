@@ -30,13 +30,7 @@ class AddonInitializer:
         self.config.scan(menu)
 
     def configure_addon_views(self):
-        """Configure views for your application.
-
-        Let the config scanner to pick ``@simple_route`` definitions from scanned modules. Alternative you can call ``config.add_route()`` and ``config.add_view()`` here.
-        """
-        # We override this method, so that we route home to our home screen, not Websauna default one
-        from . import views
-        self.config.scan(views)
+        pass
 
     def run(self):
 

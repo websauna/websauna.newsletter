@@ -6,9 +6,7 @@ import requests
 from pyramid.registry import Registry
 
 from websauna.system.core.utils import get_secrets
-from websauna.system.model.retry import ensure_transactionless
-from websauna.system.user.models import User
-from zope.interface import Interface
+
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +43,7 @@ class Mailgun:
         """
 
         url = self.api_url + "/" + func
-        print(data)
+
         resp = self.session.request(
             method,
             url,

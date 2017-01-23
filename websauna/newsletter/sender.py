@@ -5,7 +5,7 @@ from .mailgun import Mailgun
 from .interfaces import INewsletterGenerator
 
 
-def send_newsletter(request, subject: str, preview_email=None):
+def send_newsletter(request, subject: str, preview_email=None, testmode=False):
     """Send newsletter.
 
     :param request:
@@ -25,7 +25,6 @@ def send_newsletter(request, subject: str, preview_email=None):
     html = newsletter.render()
     from_ = secrets["mailgun.from"]
     domain = secrets["mailgun.domain"]
-    api_key = secrets["mailgun.api_key"]
     campaign = now().isoformat()
 
     mailgun = Mailgun(request.registry)
