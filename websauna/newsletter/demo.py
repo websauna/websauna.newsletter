@@ -1,5 +1,7 @@
 """This contains app entry point for running a demo site for this addon or running functional tests for this addon."""
 
+import datetime
+
 import websauna.system
 from pyramid.interfaces import IRequest
 from pyramid.renderers import render
@@ -16,7 +18,7 @@ class DemoNewsletterRenderer:
     def __init__(self, request: Request):
         self.request = request
 
-    def render(self):
+    def render(self, since: datetime.datetime):
         """Render some sample content."""
         from websauna.system.user.models import User
         request = self.request

@@ -94,6 +94,3 @@ class Mailgun:
             data["o:campaign"] = yesify(campaign)
 
         return self.make_request("{}/messages".format(domain), **data)
-
-
-

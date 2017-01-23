@@ -1,5 +1,6 @@
 import datetime
 
+from websauna.system.core.redis import get_redis
 from websauna.system.http import Request
 
 
@@ -11,13 +12,16 @@ class NewsletterState:
 
     def __init__(self, request: Request):
         self.request = request
+        self.redis = get_redis(self.request)
 
-    def send(self, preview: bool):
-        pass
+    def set_last_send_timestamp(self, now: datetime.datetime):
+        ts = now.timestamp()
+        self.redis.set(self.REDIS_NEWSLETTER_TIMESTAMP, ts)
 
     def get_last_send_timestamp(self) -> datetime.datetime:
         """Get UNIX timestamp when the last newsletter went out."""
-        return None
+        val = self.redis.get(self.REDIS_NEWSLETTER_TIMESTAMP)
+        if not val:
+            return None
 
-    def save_newsletter(self, emails, campaign_id, renderer_html):
-        """Store newsletter data for later usage.."""
+        return datetime.datetime.utcfromtimestamp(float(val))
