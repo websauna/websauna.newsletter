@@ -76,7 +76,7 @@ Example:
     domain = mailgun.websauna.org
 
     # From: email we use to send the newsletter
-    from = newsletter-demo@websauna.org
+    from = MyApp Newsletter <newsletter-demo@websauna.org>
 
 Create Mailgun mailing list object
 ----------------------------------
