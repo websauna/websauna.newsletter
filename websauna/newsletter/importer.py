@@ -52,15 +52,20 @@ def import_all_users(mailgun: Mailgun, dbsession, address: str, tm: Optional[Tra
 
     count = 0
 
+    for obj in dbsession:
+        print(obj)
+
     # Make sure we don't have a transaction in progress as we do batching ourselves
     ensure_transactionless(transaction_manager=tm)
 
     @retryable(tm=tm)
     def tx1():
-        return  [u.id for u in dbsession.query(User.id).all()]
+        """Get user ids on the first transaction."""
+        return [u.id for u in dbsession.query(User.id).all()]
 
     @retryable(tm=tm)
     def tx_n(id):
+        """For each user, import it in a subsequent transaction."""
         u = dbsession.query(User).get(id)
         if import_subscriber(mailgun, address, u):
             return 1

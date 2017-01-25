@@ -2,6 +2,7 @@ import logging
 import premailer
 
 from websauna.system.core.utils import get_secrets
+from websauna.system.model.retry import retryable
 from websauna.utils.time import now
 from websauna.system.task.tasks import ScheduleOnCommitTask, task
 
@@ -16,11 +17,19 @@ logger = logging.getLogger(__name__)
 
 @task(base=ScheduleOnCommitTask, bind=True)
 def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, testmode, now_, import_subscribers):
-    """Do user import and newsletter inside a Celery worker process."""
+    """Do user import and newsletter inside a Celery worker process.
+
+    We carefully split transaction handling to several parts.
+    """
 
     request = self.get_request()
 
     secrets = get_secrets(request.registry)
+
+    # Not needed, happens post-request in eager
+    # if self.is_eager():
+    #    # We are called within view transaction cycle
+    #    request.tm.commit()
 
     if not now_:
         now_ = now()
@@ -37,7 +46,12 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
 
     text = "Please see the attached HTML mail."
 
-    html = newsletter.render(since=state.get_last_send_timestamp())
+    @retryable(tm=request.tm)
+    def render_tx():
+        """Run HTML rendering in its own transaction, as it most likely reads database."""
+        return newsletter.render(since=state.get_last_send_timestamp())
+
+    html = render_tx()
     html = premailer.transform(html)
 
     from_ = secrets["mailgun.from"]
