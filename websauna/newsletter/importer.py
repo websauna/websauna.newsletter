@@ -1,6 +1,8 @@
 """User state management."""
 import logging
+from typing import Optional
 
+from transaction import TransactionManager
 from websauna.system.model.retry import ensure_transactionless
 from websauna.system.user.models import User
 
@@ -39,13 +41,15 @@ def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -
     return False
 
 
-def import_all_users(mailgun: Mailgun, dbsession, address: str) -> int:
+def import_all_users(mailgun: Mailgun, dbsession, address: str, tm: TransactionManager=Optional[None]) -> int:
     """Update Mail subscribers database from Websauna internal database.
 
     :return: Imported count
     """
 
-    tm = dbsession.transaction_manager
+    if tm is None:
+        tm = dbsession.transaction_manager
+
     count = 0
 
     # Make sure we don't have a transaction in progress as we do batching ourselves

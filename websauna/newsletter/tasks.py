@@ -49,7 +49,7 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     if import_subscribers:
         # This may take a looooong time....
         logger.info("Importing subscribers")
-        import_all_users(mailgun, request.dbsession, to)
+        import_all_users(mailgun, request.dbsession, to, tm=request.tm)
 
     logger.info("Sending out newsletter %s %s %s %s", subject, to, from_, campaign)
     mailgun.send(domain, to, from_, subject, text, html, campaign)
