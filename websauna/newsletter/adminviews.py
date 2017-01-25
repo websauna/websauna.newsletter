@@ -100,7 +100,7 @@ def newsletter(context: Admin, request: Request):
                 appstruct = form.validate(request.POST.items())
 
                 if appstruct["preview"]:
-                    send_newsletter(request, appstruct["subject"], preview_email=appstruct["email"])
+                    send_newsletter(request, appstruct["subject"], preview_email=appstruct["email"], import_subscribers=appstruct["import_subscribers"])
                     messages.add(request, "Preview email sent.")
                 else:
                     send_newsletter(request, appstruct["subject"], import_subscribers=appstruct["import_subscribers"])

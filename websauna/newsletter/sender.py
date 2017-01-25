@@ -19,5 +19,5 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
     :param import_subscribers: Import Websauna userbase as subscribers for the newsletter
     """
 
-    logger.info("Scheduling newsletter task %s", subject)
+    logger.info("Scheduling newsletter task %s, preview %s, import subscribers %s", subject, preview_email, import_subscribers)
     send_newsletter_task.apply_async(args=(subject, preview_email, testmode, now_, import_subscribers), tm=request.transaction_manager)
