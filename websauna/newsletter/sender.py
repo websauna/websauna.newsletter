@@ -1,12 +1,4 @@
-import premailer
-
-from websauna.system.core.utils import get_secrets
-from websauna.utils.time import now
-
-from .mailgun import Mailgun
-from .interfaces import INewsletterGenerator
-from .state import NewsletterState
-from .importer import import_all_users
+from .tasks import send_newsletter_task
 
 
 def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None, import_subscribers=False):
@@ -14,40 +6,12 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
 
     The HTML is mangled through premailer.
 
+    Performs the operation asynchronously in a Celery task. The task dispatch is triggered only on commit.
+
     :param preview_email: Fill in to send a preview
     :param testmode: As in Mailgun parameters
     :param now_: Override timestamp to newsletter state
     :param import_subscribers: Import Websauna userbase as subscribers for the newsletter
-    :return:
     """
-    secrets = get_secrets(request.registry)
 
-    if not now_:
-        now_ = now()
-
-    if preview_email:
-        to = preview_email
-    else:
-        to = secrets["mailgun.mailing_list"]
-
-    newsletter = request.registry.queryAdapter(request, INewsletterGenerator)
-
-    state = NewsletterState(request)
-
-    text = "Please see the attached HTML mail."
-
-    html = newsletter.render(since=state.get_last_send_timestamp())
-    html = premailer.transform(html)
-
-    from_ = secrets["mailgun.from"]
-    domain = secrets["mailgun.domain"]
-    campaign = now().isoformat()
-
-    mailgun = Mailgun(request.registry)
-
-    if import_subscribers:
-        import_all_users(mailgun, request.dbsession, to)
-
-    mailgun.send(domain, to, from_, subject, text, html, campaign)
-
-    state.set_last_send_timestamp(now_)
+    send_newsletter_task.apply_async(args=(subject, preview_email, testmode, now_, import_subscribers), tm=request.transaction_manager)

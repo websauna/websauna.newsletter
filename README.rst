@@ -154,6 +154,32 @@ In console:
     mailgun = Mailgun(request.registry)
     print(mailgun.list_members(list_address))  # TODO: pagination
 
+Importing email subscribers
+---------------------------
+
+Note that importing website users is supported in the admin interface.
+
+Example:
+
+.. code-block:: python
+
+    subscribers = """
+    mikko@example.com
+    pete@example.com
+    """
+
+    from websauna.system.core.utils import get_secrets
+    from websauna.newsletter.mailgun import Mailgun
+    from websauna.newsletter.views import subscribe_email
+
+    secrets = get_secrets(request.registry)
+    list_address = secrets["mailgun.mailing_list"]
+    mailgun = Mailgun(request.registry)
+
+    for s in subscribers.split():
+        s = s.strip()
+        if s:
+            subscribe_email(request, s)
 
 Local development mode
 ======================

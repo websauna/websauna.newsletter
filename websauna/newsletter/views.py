@@ -17,16 +17,20 @@ class NewsletterSubscriptionSchema(CSRFSchema):
 
 
 def subscribe_email(request: Request, email: str):
+    """Subscribe an email address to our default mailing list.
+
+    Don't change existing subscription status.
+    """
     # Save form data from appstruct
     mailgun = Mailgun(request.registry)
     secrets = get_secrets(request.registry)
     address = secrets["mailgun.mailing_list"]
-    resp = mailgun.update_subscription(address, {
+
+    return mailgun.update_subscription(address, {
         "address": email,
         "email": email,
-        "subscribed": "yes",
+        "upsert": "yes"
     })
-
 
 
 @simple_route("/subscribe-newsletter", route_name="subscribe_newsletter")

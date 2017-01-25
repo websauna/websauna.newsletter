@@ -22,6 +22,11 @@ class AddonInitializer:
         # Use prepend=False here so that the app can override our templates easily
         self.config.add_jinja2_search_path('websauna.newsletter:templates', name='.html', prepend=False)  # HTML templates for pages
 
+    @after(Initializer.configure_tasks)
+    def configure_tasks(self):
+        from . import tasks
+        self.config.scan(tasks)
+
     @after(Initializer.configure_admin)
     def configure_admin(self):
         from . import adminviews
