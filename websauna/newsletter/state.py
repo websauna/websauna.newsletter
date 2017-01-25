@@ -24,4 +24,5 @@ class NewsletterState:
         if not val:
             return None
 
-        return datetime.datetime.utcfromtimestamp(float(val))
+        dt = datetime.datetime.utcfromtimestamp(float(val)).replace(tzinfo=datetime.timezone.utc)
+        return dt

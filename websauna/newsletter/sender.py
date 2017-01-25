@@ -4,9 +4,10 @@ from websauna.utils.time import now
 from .mailgun import Mailgun
 from .interfaces import INewsletterGenerator
 from .state import NewsletterState
+from .importer import import_all_users
 
 
-def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None):
+def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None, import_subscribers=False):
     """Send newsletter.
 
     :param request:
@@ -34,6 +35,10 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
     campaign = now().isoformat()
 
     mailgun = Mailgun(request.registry)
+
+    if import_subscribers:
+        import_all_users(mailgun, request.dbsession, to)
+
     mailgun.send(domain, to, from_, subject, text, html, campaign)
 
     state.set_last_send_timestamp(now_)

@@ -22,8 +22,52 @@ To run this package you need Python 3.4+, PostgresSQL and Redis.
 
 You need to provide your own site-specific INewsletter implementation that populates the news letter content.
 
-Local development mode
+Installing Python package
+-------------------------
+
+Install this package using ``pip``.
+
+Setup newsletter renderer
+-------------------------
+
+You need to register a site specific newsletter that is responsible for rendering your newsletter HTML payload. Do this in your ``Initializer.configure_views``. Example::
+
+
+        # Configure newsletter renderer
+        from mysite.views.newsletter import NewsletterRenderer
+        from websauna.newsletter.interfaces import INewsletterGenerator
+        registry = self.config.registry
+        registry.registerAdapter(factory=NewsletterRenderer, required=(IRequest,), provided=INewsletterGenerator)
+
+For more information see ``demo.py``.
+
+Setting up the secrets
 ----------------------
+
+Add Mailgun API keys and such in ``myapp/conf/development-secrets.ini``.
+
+Example::
+
+    [mailgun]
+    # Get from Mailgun
+    api_key = x
+
+    # What is the mailing list we use in the test suite
+    mailing-list = unit-testing@mailgun.websauna.org
+
+    # Outbound domain used for the newslettering
+    domain = mailgun.websauna.org
+
+    # From: email we use to send the newsletter
+    from = newsletter-demo@websauna.org
+
+Usage
+=====
+
+Visit Newsletter tab in the admin interface.
+
+Local development mode
+======================
 
 Activate the virtual environment of your Websauna application.
 
@@ -46,33 +90,6 @@ Example (OSX / Homebrew)::
 
 Running the test suite
 ======================
-
-Create ``websauna/newsletter/conf/development-secrets.ini``.
-
-Content::
-
-    # Secrets for running a demo site
-
-    [authentication]
-    # This is a secret seed used in email login
-    secret = x
-
-    [authomatic]
-    # This is a secret seed used in various OAuth related keys
-    secret = x
-
-    # The secret used to hash session keys
-    [session]
-    secret = x
-
-    # get from Mailgun account settings
-    [mailgun]
-    api_key = key-xxx
-
-    # What is the mailing list we use in the test suite
-    # Automatically creatd
-    test-suite-mailing-list = unit-testing@websauna.org
-
 
 First create test database::
 

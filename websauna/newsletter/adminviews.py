@@ -27,6 +27,8 @@ class NewsletterSend(CSRFSchema):
 
     preview = colander.SchemaNode(colander.Boolean(), description="Is this a preview send.", default=True)
 
+    import_subscribers = colander.SchemaNode(colander.Boolean(), description="Import userbase as new subscribers", default=True)
+
     email = colander.SchemaNode(colander.String(), title="Preview email", description="Send preview email to this email address", validator=colander.Email(), missing=colander.null)
 
     domain = colander.SchemaNode(
@@ -101,7 +103,7 @@ def newsletter(context: Admin, request: Request):
                     send_newsletter(request, appstruct["subject"], preview_email=appstruct["email"])
                     messages.add(request, "Preview email sent.")
                 else:
-                    send_newsletter(request, appstruct["subject"])
+                    send_newsletter(request, appstruct["subject"], import_subscribers=appstruct["import_subscribers"])
                     messages.add(request, "Newsletter sent.")
 
                 return httpexceptions.HTTPFound(request.url)
@@ -141,8 +143,11 @@ def newsletter(context: Admin, request: Request):
     permission="edit")
 def newsletter_preview(request: Request):
     """Render the preview of current outgoing newsletter inside an <iframe>."""
+
     newsletter = request.registry.queryAdapter(request, INewsletterGenerator)
     if not newsletter:
         return Response("INewsletterGenerator not configured")
 
-    return Response(newsletter.render())
+    state = NewsletterState(request)
+
+    return Response(newsletter.render(state.get_last_send_timestamp()))
