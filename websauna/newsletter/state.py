@@ -5,7 +5,10 @@ from websauna.system.http import Request
 
 
 class NewsletterState:
-    """Newsletter state management."""
+    """Newsletter state management.
+
+    State is stord within redis.
+    """
 
     #: Redis key when the last news letter was send
     REDIS_NEWSLETTER_TIMESTAMP = "newsletter_sent_timestamp"

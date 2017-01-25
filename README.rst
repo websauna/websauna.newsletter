@@ -17,6 +17,8 @@ Features
 
 * Redis based newsletter state management (when the last letter went out, etc.)
 
+* Websauna's Celery based task subsystem is used to run long running operations asynchronously
+
 Installation
 ============
 
@@ -125,8 +127,8 @@ Sending and preview
 
 Visit *Newsletter* tab in the admin interface to preview and send out newsletters.
 
-Setting the news collection date
---------------------------------
+Resetting the news collection date
+----------------------------------
 
 You can manually set the newsletter state, when the last newsletter was sent, from shell:
 

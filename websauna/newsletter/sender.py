@@ -1,4 +1,9 @@
+import logging
+
 from .tasks import send_newsletter_task
+
+
+logger = logging.getLogger(__name__)
 
 
 def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None, import_subscribers=False):
@@ -14,4 +19,5 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
     :param import_subscribers: Import Websauna userbase as subscribers for the newsletter
     """
 
+    logger.info("Scheduling newsletter task %s", subject)
     send_newsletter_task.apply_async(args=(subject, preview_email, testmode, now_, import_subscribers), tm=request.transaction_manager)

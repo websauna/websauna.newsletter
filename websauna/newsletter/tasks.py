@@ -1,3 +1,4 @@
+import logging
 import premailer
 
 from websauna.system.core.utils import get_secrets
@@ -8,6 +9,9 @@ from .mailgun import Mailgun
 from .interfaces import INewsletterGenerator
 from .state import NewsletterState
 from .importer import import_all_users
+
+
+logger = logging.getLogger(__name__)
 
 
 @task(base=ScheduleOnCommitTask, bind=True)
@@ -43,8 +47,10 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
 
     if import_subscribers:
         # This may take a looooong time....
+        logger.info("Importing subscribers")
         import_all_users(mailgun, request.dbsession, to)
 
+    logger.info("Sending out newsletter %s %s %s %s", subject, to, from_, campaign)
     mailgun.send(domain, to, from_, subject, text, html, campaign)
 
     state.set_last_send_timestamp(now_)
