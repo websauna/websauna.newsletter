@@ -54,4 +54,6 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     logger.info("Sending out newsletter %s %s %s %s", subject, to, from_, campaign)
     mailgun.send(domain, to, from_, subject, text, html, campaign)
 
-    state.set_last_send_timestamp(now_)
+    if not preview_email:
+        # Only mark newsletter send if not prvew
+        state.set_last_send_timestamp(now_)
