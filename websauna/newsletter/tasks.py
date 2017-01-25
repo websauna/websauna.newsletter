@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, testmode, now_, import_subscribers):
     """Do user import and newsletter inside a Celery worker process."""
 
-    request = self.request.get_request()
+    request = self.get_request()
 
     secrets = get_secrets(request.registry)
 

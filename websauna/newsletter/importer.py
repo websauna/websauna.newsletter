@@ -41,7 +41,7 @@ def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -
     return False
 
 
-def import_all_users(mailgun: Mailgun, dbsession, address: str, tm: TransactionManager=Optional[None]) -> int:
+def import_all_users(mailgun: Mailgun, dbsession, address: str, tm: Optional[TransactionManager]=None) -> int:
     """Update Mail subscribers database from Websauna internal database.
 
     :return: Imported count
