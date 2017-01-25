@@ -34,11 +34,13 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     if not now_:
         now_ = now()
 
+    mailing_list = secrets["mailgun.mailing_list"]
+
     if preview_email:
         to = preview_email
         subject = "[PREVIEW] " + subject
     else:
-        to = secrets["mailgun.mailing_list"]
+        to = mailing_list
 
     newsletter = request.registry.queryAdapter(request, INewsletterGenerator)
 
@@ -63,7 +65,7 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     if import_subscribers:
         # This may take a looooong time....
         logger.info("Importing subscribers")
-        import_all_users(mailgun, request.dbsession, to, tm=request.tm)
+        import_all_users(mailgun, request.dbsession, mailing_list, tm=request.tm)
 
     logger.info("Sending out newsletter %s %s %s %s", subject, to, from_, campaign)
     mailgun.send(domain, to, from_, subject, text, html, campaign)

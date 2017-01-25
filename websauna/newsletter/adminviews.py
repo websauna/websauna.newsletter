@@ -133,7 +133,7 @@ def newsletter(context: Admin, request: Request):
     # This loads widgets specific CSS/JavaScript in HTML code,
     # if form widgets specify any static assets.
     form.resource_registry.pull_in_resources(request, form)
-
+    
     return locals()
 
 
