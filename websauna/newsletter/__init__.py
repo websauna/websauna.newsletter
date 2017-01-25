@@ -30,7 +30,8 @@ class AddonInitializer:
         self.config.scan(menu)
 
     def configure_addon_views(self):
-        pass
+        from . import views
+        self.config.scan(views)
 
     def run(self):
 

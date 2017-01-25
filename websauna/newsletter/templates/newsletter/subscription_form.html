@@ -1,0 +1,8 @@
+<form method="POST" action="{{ 'subscribe_newsletter'|route_url }}">
+  <input name="csrf_token" type="hidden" value="{{ request.session.get_csrf_token() }}">
+  <div class="form-group">
+    <input class=form-control type="email" name="email" placeholder="Enter your email address">
+  </div>
+
+  <button class="btn btn-primary btn-block" type="submit" name="subscribe">Subscribe to newsletter</button>
+</form>

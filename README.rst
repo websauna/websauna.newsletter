@@ -104,6 +104,11 @@ Run test suite using py.test running::
 
     py.test
 
+TODO
+====
+
+* Double confirmation to the mailing list subscription
+
 More information
 ================
 

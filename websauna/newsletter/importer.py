@@ -30,7 +30,8 @@ def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -
             "upsert": upsert and "yes" or "no",
         }
 
-        mailgun.make_request("lists/{}/members".format(address), **data)
+        mailgun.update_subscription(address, data)
+
         mailing_list_subscribes.append(address)
 
         user.user_data["mailing_list_subscribes"] = mailing_list_subscribes

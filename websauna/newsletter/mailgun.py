@@ -68,6 +68,14 @@ class Mailgun:
         """Get mailing list members pagination object"""
         return self.make_request("lists/{}/members/pages".format(address), method="GET")
 
+    def update_subscription(self, address: str, data: dict) -> dict:
+        """Update subscription information
+
+        :param address: Mailing list
+        :param data: dict like {"address": user.email, "name": user.friendly_name, "upsert": upsert and "yes" or "no",}
+        """
+        return self.make_request("lists/{}/members".format(address), **data)
+
     def send(self, domain: str, to: str, from_: str, subject: str, text: str, html: str, campaign=None, testmode=False, tracking=True, tracking_clicks=True, tracking_opens=True):
         """Send a newsletter or single message.
 

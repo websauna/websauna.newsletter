@@ -33,6 +33,12 @@ class Initializer(websauna.system.DemoInitializer):
         """Include this addon in the configuration."""
         self.config.include("websauna.newsletter")
 
+    def configure_templates(self):
+        super(Initializer, self).configure_templates()
+
+        # Your app templates go here
+        self.config.add_jinja2_search_path('websauna.newsletter:demotemplates', name='.html', prepend=True)
+
     def run(self):
         super(Initializer, self).run()
 
