@@ -20,7 +20,7 @@ def subscribe_email(request: Request, email: str):
     # Save form data from appstruct
     mailgun = Mailgun(request.registry)
     secrets = get_secrets(request.registry)
-    address = secrets["mailgun.mailing-list"]
+    address = secrets["mailgun.mailing_list"]
     resp = mailgun.update_subscription(address, {
         "address": email,
         "email": email,

@@ -1,5 +1,7 @@
 This is a newsletter addon for `Websauna framework <https://websauna.org>`_. It is intended for automatic newsletter generation from the site content.
 
+.. contents:: :local:
+
 Features
 ========
 
@@ -30,8 +32,9 @@ Install this package using ``pip``.
 Setup newsletter renderer
 -------------------------
 
-You need to register a site specific newsletter that is responsible for rendering your newsletter HTML payload. Do this in your ``Initializer.configure_views``. Example::
+You need to register a site specific newsletter that is responsible for rendering your newsletter HTML payload. Do this in your ``Initializer.configure_views``. Example:
 
+.. code-block:: python
 
         # Configure newsletter renderer
         from mysite.views.newsletter import NewsletterRenderer
@@ -46,14 +49,16 @@ Setting up the secrets
 
 Add Mailgun API keys and such in ``myapp/conf/development-secrets.ini``.
 
-Example::
+Example:
+
+.. code-block:: ini
 
     [mailgun]
     # Get from Mailgun
     api_key = x
 
     # What is the mailing list we use in the test suite
-    mailing-list = unit-testing@mailgun.websauna.org
+    mailing_list = unit-testing@mailgun.websauna.org
 
     # Outbound domain used for the newslettering
     domain = mailgun.websauna.org
@@ -103,26 +108,39 @@ For more information run the demo and view ``demotemplates/site/footer.html``.
 Usage
 =====
 
+Sending and preview
+-------------------
+
 Visit *Newsletter* tab in the admin interface to preview and send out newsletters.
+
+Setting the news collection date
+--------------------------------
+
+You can manually set the newsletter state, when the last newsletter was sent, from shell:
+
+.. code-block:: python
+
+    import datetime
+    from websauna.newsletter.state import NewsletterState
+
+    state = NewsletterState(request)
+    state.set_last_send_timestamp(datetime.datetime(2016, 12, 24).replace(tzinfo=datetime.timezone.utc))
+
+State is managed in Redis.
 
 Local development mode
 ======================
 
+You can development this addon locally.
+
 Activate the virtual environment of your Websauna application.
 
-Then::
+Then:
+
+.. code-block:: console
 
     cd newsletter  # This is the folder with setup.py file
     pip install -e .
-
-Running the development website
-===============================
-
-Local development machine
--------------------------
-
-Example (OSX / Homebrew)::
-
     psql create newsletter_dev
     ws-sync-db websauna/newsletter/conf/development.ini
     ws-pserve websauna/newsletter/conf/development.ini --reload

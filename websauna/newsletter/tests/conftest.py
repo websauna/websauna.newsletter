@@ -16,7 +16,7 @@ def mailgun(registry):
 @pytest.fixture()
 def mailing_list(mailgun, registry):
     secrets = get_secrets(registry)
-    list_address = secrets["mailgun.mailing-list"]
+    list_address = secrets["mailgun.mailing_list"]
 
     try:
         mailgun.delete_list(list_address)

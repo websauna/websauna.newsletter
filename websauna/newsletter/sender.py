@@ -22,7 +22,7 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
     if preview_email:
         to = preview_email
     else:
-        to = secrets["mailgun.mailing-list"]
+        to = secrets["mailgun.mailing_list"]
 
     newsletter = request.registry.queryAdapter(request, INewsletterGenerator)
 
