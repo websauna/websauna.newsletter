@@ -61,10 +61,49 @@ Example::
     # From: email we use to send the newsletter
     from = newsletter-demo@websauna.org
 
+Create Mailgun mailing list object
+----------------------------------
+
+Easiest to do this through ``ws-shell`` using production configuraition::
+
+    ws-shell tokenmarket/conf/production.ini
+
+Then using ``%cpaste`` notebook shell command::
+
+    from websauna.system.core.utils import get_secrets
+    from websauna.newsletter.mailgun import Mailgun
+    secrets = get_secrets(request.registry)
+    list_address = secrets["mailgun.mailing-list"]
+    mailgun = Mailgun(request.registry)
+    mailgun.create_list(list_address, "MyApp newsletter")
+
+You get a reply::
+
+    {'list': {'access_level': 'readonly',
+      'address': 'newsletter@example.com',
+      'created_at': 'Wed, 25 Jan 2017 17:08:56 -0000',
+      'description': 'TokenMarket newsletter',
+      'members_count': 0,
+      'name': ''},
+     'message': 'Mailing list has been created'}
+
+Integration subscription for on your site
+-----------------------------------------
+
+A boostrap based mini subscription form is provided with the packag. It is ideal e.g. to place in the site footer.
+
+Simply in your template do::
+
+    <h3>Follow</h3>
+    {% include "newsletter/subscription_form.html" %}
+
+
+For more information run the demo and view ``demotemplates/site/footer.html``.
+
 Usage
 =====
 
-Visit Newsletter tab in the admin interface.
+Visit *Newsletter* tab in the admin interface to preview and send out newsletters.
 
 Local development mode
 ======================

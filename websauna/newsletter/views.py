@@ -21,11 +21,12 @@ def subscribe_email(request: Request, email: str):
     mailgun = Mailgun(request.registry)
     secrets = get_secrets(request.registry)
     address = secrets["mailgun.mailing-list"]
-    mailgun.update_subscription(address, {
+    resp = mailgun.update_subscription(address, {
         "address": email,
         "email": email,
         "subscribed": "yes",
     })
+
 
 
 @simple_route("/subscribe-newsletter", route_name="subscribe_newsletter")
@@ -41,6 +42,7 @@ def subscribe_newsletter(request: Request):
                 appstruct = form.validate(request.POST.items())
                 email = appstruct["email"]
 
+                subscribe_email(request, email)
 
                 # Thank user and take him/her to the next page
                 messages.add(request, kind="info", html=True, msg="<strong>{}</strong> has been subscribed to the newsletter.".format(email))
