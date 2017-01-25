@@ -27,6 +27,7 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
 
     if preview_email:
         to = preview_email
+        subject = "[PREVIEW] " + subject
     else:
         to = secrets["mailgun.mailing_list"]
 
