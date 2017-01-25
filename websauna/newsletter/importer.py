@@ -3,7 +3,7 @@ import logging
 from typing import Optional
 
 from transaction import TransactionManager
-from websauna.system.model.retry import ensure_transactionless
+from websauna.system.model.retry import ensure_transactionless, retryable
 from websauna.system.user.models import User
 
 from .mailgun import Mailgun
@@ -55,13 +55,22 @@ def import_all_users(mailgun: Mailgun, dbsession, address: str, tm: Optional[Tra
     # Make sure we don't have a transaction in progress as we do batching ourselves
     ensure_transactionless(transaction_manager=tm)
 
-    with tm:
-        user_ids = [u.id for u in dbsession.query(User.id).all()]
+    @retryable(tm=tm)
+    def tx1():
+        return  [u.id for u in dbsession.query(User.id).all()]
 
+    @retryable(tm=tm)
+    def tx_n(id):
+        u = dbsession.query(User).get(id)
+        if import_subscriber(mailgun, address, u):
+            return 1
+        else:
+            return 0
+
+    user_ids = tx1()
     for id in user_ids:
-        with tm:
-            u = dbsession.query(User).get(id)
-            if import_subscriber(mailgun, address, u):
-                count += 1
+        count += tx_n(id)
+
+    logger.info("Imported %d users", count)
 
     return count
