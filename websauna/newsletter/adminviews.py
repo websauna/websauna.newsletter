@@ -75,7 +75,7 @@ def newsletter(context: Admin, request: Request):
     schema = NewsletterSend().bind(request=request)
 
     # Create a styled button with some extra Bootstrap 3 CSS classes
-    b = deform.Button(name='process', title="Send", css_class="btn-block btn-lg")
+    b = deform.Button(name='process', title="Send", css_class="btn-block btn-lg btn-primary")
     form = deform.Form(schema, buttons=(b, ), resource_registry=ResourceRegistry(request))
 
     secrets = get_secrets(request.registry)
