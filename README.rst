@@ -44,6 +44,18 @@ You need to register a site specific newsletter that is responsible for renderin
 
 For more information see ``demo.py``.
 
+Unsubscription link
+-------------------
+
+In your renderer HTML code you can use Mailgun unsubscription management:
+
+.. code-block:: html
+
+  <p class="details">
+    {# For Mailgun #}
+    <a href="%mailing_list_unsubscribe_url%">Unsubscribe from TokenMarket newsletter.</a>
+  </p>
+
 Setting up the secrets
 ----------------------
 
@@ -78,7 +90,7 @@ Then using ``%cpaste`` notebook shell command::
     from websauna.system.core.utils import get_secrets
     from websauna.newsletter.mailgun import Mailgun
     secrets = get_secrets(request.registry)
-    list_address = secrets["mailgun.mailing-list"]
+    list_address = secrets["mailgun.mailing_list"]
     mailgun = Mailgun(request.registry)
     mailgun.create_list(list_address, "MyApp newsletter")
 
@@ -127,6 +139,21 @@ You can manually set the newsletter state, when the last newsletter was sent, fr
     state.set_last_send_timestamp(datetime.datetime(2016, 12, 24).replace(tzinfo=datetime.timezone.utc))
 
 State is managed in Redis.
+
+Exporting subscribers
+---------------------
+
+In console:
+
+.. code-block:: python
+
+    from websauna.system.core.utils import get_secrets
+    from websauna.newsletter.mailgun import Mailgun
+    secrets = get_secrets(request.registry)
+    list_address = secrets["mailgun.mailing_list"]
+    mailgun = Mailgun(request.registry)
+    print(mailgun.list_members(list_address))  # TODO: pagination
+
 
 Local development mode
 ======================
