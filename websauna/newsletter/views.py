@@ -5,6 +5,7 @@ from pyramid.httpexceptions import HTTPBadRequest
 
 from websauna.system.core import messages
 from websauna.system.core.route import simple_route
+from websauna.system.core.sitemap import include_in_sitemap
 from websauna.system.core.utils import get_secrets
 from websauna.system.form.schema import CSRFSchema
 from websauna.system.http import Request
@@ -34,6 +35,7 @@ def subscribe_email(request: Request, email: str):
 
 
 @simple_route("/subscribe-newsletter", route_name="subscribe_newsletter")
+@include_in_sitemap(False)
 def subscribe_newsletter(request: Request):
 
     schema = NewsletterSubscriptionSchema().bind(request=request)
@@ -61,4 +63,4 @@ def subscribe_newsletter(request: Request):
             # We don't know which control caused form submission
             return HTTPBadRequest("Unknown form button pressed")
 
-    return {}
+    return HTTPBadRequest("POST-only endpoint")

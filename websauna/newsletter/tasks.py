@@ -26,11 +26,6 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
 
     secrets = get_secrets(request.registry)
 
-    # Not needed, happens post-request in eager
-    # if self.is_eager():
-    #    # We are called within view transaction cycle
-    #    request.tm.commit()
-
     if not now_:
         now_ = now()
 
@@ -71,5 +66,5 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     mailgun.send(domain, to, from_, subject, text, html, campaign)
 
     if not preview_email:
-        # Only mark newsletter send if not prvew
+        # Only mark newsletter send if not preview
         state.set_last_send_timestamp(now_)
