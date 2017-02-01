@@ -22,6 +22,8 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
     We carefully split transaction handling to several parts.
     """
 
+    # from celery.contrib import rdb ; rdb.set_trace()
+
     request = self.get_request()
 
     secrets = get_secrets(request.registry)

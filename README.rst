@@ -216,6 +216,28 @@ Run test suite using py.test running::
 
     py.test
 
+Manually testing with Celery
+----------------------------
+
+Make sure Celery is not eager in ``development.ini``::
+
+    websauna.celery_config =
+        {
+            "broker_url":  "redis://localhost:6379/15",
+            "task_always_eager": False,
+        }
+
+Start demo (Terminal 1)::
+
+    ws-pserve websauna/newsletter/conf/development.ini
+
+Start Celery (Terminal 2)::
+
+    ws-celery websauna/newsletter/conf/development.ini -- worker
+
+
+
+
 TODO
 ====
 
