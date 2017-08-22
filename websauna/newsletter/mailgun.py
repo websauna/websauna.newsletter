@@ -71,6 +71,8 @@ class Mailgun:
     def update_subscription(self, address: str, data: dict) -> dict:
         """Update subscription information
 
+        http://mailgun-documentation.readthedocs.io/en/latest/api-mailinglists.html#mailing-lists
+
         :param address: Mailing list
         :param data: dict like {"address": user.email, "name": user.friendly_name, "upsert": upsert and "yes" or "no",}
         """
