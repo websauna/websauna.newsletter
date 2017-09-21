@@ -23,6 +23,12 @@ def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -
 
     if address not in mailing_list_subscribes:
 
+        # Some sanity logic to filter out emails that are legit in some services, unlegit in Mailgun
+        first_part, second_part = address.split("@")
+        if first_part.startswith(".") or first_part.endswith("."):
+            logger.info("Bad email address: %s", address)
+            return False
+
         logger.info("Subscribing %s to %s", user.email, address)
 
         # Don't set subscribed field, so that we don't accidentally update unsubscribed users

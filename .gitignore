@@ -36,3 +36,5 @@ perma-asset
 .tox
 .eggs
 
+# macOS
+.DS_Store
