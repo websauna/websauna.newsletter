@@ -38,7 +38,11 @@ def import_subscriber(mailgun: Mailgun, address: str, user: User, upsert=True) -
             "upsert": upsert and "yes" or "no",
         }
 
-        mailgun.update_subscription(address, data)
+        try:
+            mailgun.update_subscription(address, data)
+        except Exception as e:
+            logger.error("Failed to subscribe email %s: %s", user.email, e)
+            return False
 
         mailing_list_subscribes.append(address)
 
