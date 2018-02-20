@@ -197,8 +197,8 @@ Then:
     cd newsletter  # This is the folder with setup.py file
     pip install -e .
     psql create newsletter_dev
-    ws-sync-db websauna/newsletter/conf/development.ini
-    ws-pserve websauna/newsletter/conf/development.ini --reload
+    ws-sync-db  ws://websauna/newsletter/conf/development.ini
+    pserve  ws://websauna/newsletter/conf/development.ini --reload
 
 Running the test suite
 ======================
@@ -229,11 +229,11 @@ Make sure Celery is not eager in ``development.ini``::
 
 Start demo (Terminal 1)::
 
-    ws-pserve websauna/newsletter/conf/development.ini
+    pserve ws://websauna/newsletter/conf/development.ini
 
 Start Celery (Terminal 2)::
 
-    ws-celery websauna/newsletter/conf/development.ini -- worker
+    ws-celery  ws://websauna/newsletter/conf/development.ini -- worker
 
 
 
@@ -241,7 +241,7 @@ Start Celery (Terminal 2)::
 TODO
 ====
 
-* Double confirmation to the mailing list subscription
+    * Double confirmation to the mailing list subscription
 
 More information
 ================
