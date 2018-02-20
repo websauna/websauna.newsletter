@@ -52,7 +52,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
     test_suite='websauna.newsletter',
-    install_requires=['websauna'],
+    install_requires=[
+        'websauna[celery]'
+    ],
     extras_require={
         # Dependencies for running test suite
         'test': [
