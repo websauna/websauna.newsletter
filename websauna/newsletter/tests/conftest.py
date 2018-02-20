@@ -35,8 +35,8 @@ MAILGUN_RESPONSES = {
         'POST': {
             'status_code': 200,
             'body': {
-              'message': 'Queued. Thank you.',
-              'id': '<20111114174239.25659.5817@samples.mailgun.org>'
+                'message': 'Queued. Thank you.',
+                'id': '<20111114174239.25659.5817@samples.mailgun.org>'
             }
         }
     },
@@ -44,12 +44,12 @@ MAILGUN_RESPONSES = {
         'POST': {
             'status_code': 200,
             'body': {
-              'member': {
-                  'name': 'example@example.com',
-                  'subscribed': True,
-                  'address': 'example@example.com'
-              },
-              'message': 'Mailing list member has been created'
+                'member': {
+                    'name': 'example@example.com',
+                    'subscribed': True,
+                    'address': 'example@example.com'
+                },
+                'message': 'Mailing list member has been created'
             }
         }
     },
@@ -57,19 +57,19 @@ MAILGUN_RESPONSES = {
         'GET': {
             'status_code': 200,
             'body': {
-              'items': [
-                {
-                  'name': 'example@example.com',
-                  'subscribed': True,
-                  'address': 'example@example.com'
+                'items': [
+                    {
+                        'name': 'example@example.com',
+                        'subscribed': True,
+                        'address': 'example@example.com'
+                    }
+                ],
+                'paging': {
+                    'first': 'https://url_to_first_page',
+                    'last': 'https://url_to_last_page',
+                    'next': 'http://url_to_next_page',
+                    'previous': 'http://url_to_previous_page'
                 }
-              ],
-              'paging': {
-                'first': 'https://url_to_first_page',
-                'last': 'https://url_to_last_page',
-                'next': 'http://url_to_next_page',
-                'previous': 'http://url_to_previous_page'
-              }
             }
         }
     },
@@ -79,16 +79,15 @@ MAILGUN_RESPONSES = {
             'body': {
                 'message': 'Mailing list has been created',
                 'list': {
-                  'created_at': 'Tue, 06 Mar 2012 05:44:45 GMT',
-                  'address': 'unit-testing@mailgun.websauna.org',
-                  'members_count': 0,
-                  'description': 'Websauna developers list',
-                  'name': ''
+                    'created_at': 'Tue, 06 Mar 2012 05:44:45 GMT',
+                    'address': 'unit-testing@mailgun.websauna.org',
+                    'members_count': 0,
+                    'description': 'Websauna developers list',
+                    'name': ''
                 }
             }
         }
     },
-
 }
 
 
@@ -125,8 +124,7 @@ def populated_mailing_list(mailgun, dbsession, registry, mailing_list):
     with transaction.manager:
         create_user(dbsession, registry)
 
-    count = import_all_users(mailgun, dbsession, mailing_list)
-    # assert count == 1
+    import_all_users(mailgun, dbsession, mailing_list)
     return mailing_list
 
 
