@@ -1,5 +1,6 @@
 """Subscription tests."""
 
+# Websauna
 from websauna.newsletter.views import subscribe_email
 
 

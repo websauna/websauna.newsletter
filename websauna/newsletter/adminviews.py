@@ -1,22 +1,24 @@
 """Newsletter admin inteface."""
 
+# Pyramid
 import colander
 import deform
+from pyramid import httpexceptions
 from pyramid.response import Response
 from pyramid.view import view_config
-from pyramid import httpexceptions
 
+# Websauna
+from websauna.newsletter.interfaces import INewsletterGenerator
+from websauna.system.admin.admin import Admin
 from websauna.system.core import messages
 from websauna.system.core.utils import get_secrets
-from websauna.system.form.schema import CSRFSchema
 from websauna.system.form.resourceregistry import ResourceRegistry
-from websauna.system.admin.admin import Admin
+from websauna.system.form.schema import CSRFSchema
 from websauna.system.http import Request
-from websauna.newsletter.interfaces import INewsletterGenerator
 from websauna.system.user.utils import get_user_class
 
-from .sender import send_newsletter
 from .mailgun import MailgunError
+from .sender import send_newsletter
 from .state import NewsletterState
 
 
@@ -133,7 +135,7 @@ def newsletter(context: Admin, request: Request):
     # This loads widgets specific CSS/JavaScript in HTML code,
     # if form widgets specify any static assets.
     form.resource_registry.pull_in_resources(request, form)
-    
+
     return locals()
 
 

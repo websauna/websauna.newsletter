@@ -81,4 +81,4 @@ setup(
             'main = websauna.newsletter.demo:main'
         ],
     }
-      )
+)

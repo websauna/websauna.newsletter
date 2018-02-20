@@ -1,8 +1,11 @@
-import pytest
+# Pyramid
 import transaction
 
-from websauna.newsletter.mailgun import Mailgun, MailgunError
+import pytest
+
+# Websauna
 from websauna.newsletter.importer import import_all_users
+from websauna.newsletter.mailgun import Mailgun
 from websauna.system.core.utils import get_secrets
 from websauna.tests.utils import create_user
 
@@ -20,7 +23,7 @@ def mailing_list(mailgun, registry):
 
     try:
         mailgun.delete_list(list_address)
-    except:
+    except Exception:
         # Clean up previous test run if interrupted
         pass
 

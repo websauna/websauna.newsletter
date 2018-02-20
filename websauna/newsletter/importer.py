@@ -1,9 +1,14 @@
 """User state management."""
+# Standard Library
 import logging
 from typing import Optional
 
+# Pyramid
 from transaction import TransactionManager
-from websauna.system.model.retry import ensure_transactionless, retryable
+
+# Websauna
+from websauna.system.model.retry import ensure_transactionless
+from websauna.system.model.retry import retryable
 from websauna.system.user.models import User
 
 from .mailgun import Mailgun

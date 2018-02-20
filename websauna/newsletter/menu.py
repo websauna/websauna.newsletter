@@ -1,5 +1,7 @@
+# Pyramid
 from pyramid.events import subscriber
 
+# Websauna
 from websauna.system.admin.events import AdminConstruction
 from websauna.system.admin.menu import TraverseEntry
 

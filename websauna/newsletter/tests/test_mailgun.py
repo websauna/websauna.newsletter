@@ -1,7 +1,8 @@
 """Mailgun API integration tests."""
 import pytest
 
-from websauna.newsletter.mailgun import Mailgun, MailgunError
+# Websauna
+from websauna.newsletter.mailgun import MailgunError
 
 
 def test_api_error(dbsession, registry, mailgun):
@@ -33,6 +34,3 @@ def test_send_news_letter(mailgun, populated_mailing_list, domain):
 
     resp = mailgun.send(domain, to, from_, subject, text, html, campaign, testmode)
     assert "id" in resp
-
-
-
