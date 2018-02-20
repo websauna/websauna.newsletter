@@ -53,7 +53,8 @@ setup(
     zip_safe=False,
     test_suite='websauna.newsletter',
     install_requires=[
-        'websauna[celery]'
+        'websauna[celery]',
+        'websauna.magiclogin'
     ],
     extras_require={
         # Dependencies for running test suite
