@@ -1,15 +1,19 @@
+# Standard Library
 import logging
+
 import premailer
 
+# Websauna
 from websauna.system.core.utils import get_secrets
 from websauna.system.model.retry import retryable
+from websauna.system.task.tasks import ScheduleOnCommitTask
+from websauna.system.task.tasks import task
 from websauna.utils.time import now
-from websauna.system.task.tasks import ScheduleOnCommitTask, task
 
-from .mailgun import Mailgun
-from .interfaces import INewsletterGenerator
-from .state import NewsletterState
 from .importer import import_all_users
+from .interfaces import INewsletterGenerator
+from .mailgun import Mailgun
+from .state import NewsletterState
 
 
 logger = logging.getLogger(__name__)

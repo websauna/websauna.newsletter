@@ -1,15 +1,17 @@
 """Mailgun based newsletter management."""
+# Standard Library
 import logging
+
+# Pyramid
+from pyramid.registry import Registry
 
 import requests
 
-from pyramid.registry import Registry
-
+# Websauna
 from websauna.system.core.utils import get_secrets
 
 
 logger = logging.getLogger(__name__)
-
 
 
 def yesify(val):

@@ -38,3 +38,5 @@ perma-asset
 
 # macOS
 .DS_Store
+
+.python-version

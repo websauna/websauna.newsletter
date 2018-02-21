@@ -1,14 +1,17 @@
 """This contains app entry point for running a demo site for this addon or running functional tests for this addon."""
 
+# Standard Library
 import datetime
 
-import websauna.system
+# Pyramid
 from pyramid.interfaces import IRequest
 from pyramid.renderers import render
+from zope.interface import implementer
 
+# Websauna
+import websauna.system
 from websauna.newsletter.interfaces import INewsletterGenerator
 from websauna.system.http import Request
-from zope.interface import implementer
 
 
 @implementer(INewsletterGenerator)

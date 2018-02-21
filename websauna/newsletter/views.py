@@ -1,8 +1,10 @@
+# Pyramid
 import colander
 import deform
-from pyramid.httpexceptions import HTTPFound
 from pyramid.httpexceptions import HTTPBadRequest
+from pyramid.httpexceptions import HTTPFound
 
+# Websauna
 from websauna.system.core import messages
 from websauna.system.core.route import simple_route
 from websauna.system.core.sitemap import include_in_sitemap
