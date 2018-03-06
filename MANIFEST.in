@@ -1,2 +1,3 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include newsletter *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml *.ini *.yml *.yaml
+recursive-include alembic *.mako *.py *.txt
+recursive-include websauna *.css *.htm *.html *.ini *.png
