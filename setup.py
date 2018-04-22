@@ -26,7 +26,7 @@ if len(sys.argv) >= 2:
 
 setup(
     name='websauna.newsletter',
-    version='1.0a2.dev0',
+    version='1.0a2',
     description='Newsletter add on for Websauna',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
