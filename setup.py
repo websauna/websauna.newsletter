@@ -48,6 +48,7 @@ setup(
     author_email='mikko@opensourcehacker.com',
     license='MIT',
     keywords='web websauna pyramid',
+    namespace_packages=['websauna'],
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
