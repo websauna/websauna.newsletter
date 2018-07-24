@@ -80,7 +80,7 @@ class Mailgun:
         """
         return self.make_request("lists/{}/members".format(address), **data)
 
-    def send(self, domain: str, to: str, from_: str, subject: str, text: str, html: str, campaign=None, testmode=False, tracking=True, tracking_clicks=True, tracking_opens=True):
+    def send(self, domain: str, to: str, from_: str, subject: str, text: str, html: str, campaign=None, testmode=False, tracking=True, tracking_clicks=True, tracking_opens=True, tags=[]):
         """Send a newsletter or single message.
 
         See
@@ -100,6 +100,7 @@ class Mailgun:
             "o:tracking": yesify(tracking),
             "o:tracking-clicks": yesify(tracking_clicks),
             "o:tracking-opens": yesify(tracking_opens),
+            "o:tag": ','.join(map(str, tags)),
         }
 
         if campaign:
