@@ -7,7 +7,7 @@ from .tasks import send_newsletter_task
 logger = logging.getLogger(__name__)
 
 
-def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None, import_subscribers=False):
+def send_newsletter(request, subject: str, preview_email=None, testmode=False, now_=None, import_subscribers=False, tags=[]):
     """Send newsletter.
 
     The HTML is mangled through premailer.
@@ -21,4 +21,4 @@ def send_newsletter(request, subject: str, preview_email=None, testmode=False, n
     """
 
     logger.info("Scheduling newsletter task %s, preview %s, import subscribers %s", subject, preview_email, import_subscribers)
-    send_newsletter_task.apply_async(args=(subject, preview_email, testmode, now_, import_subscribers), tm=request.tm)
+    send_newsletter_task.apply_async(args=(subject, preview_email, testmode, now_, import_subscribers, tags), tm=request.tm)

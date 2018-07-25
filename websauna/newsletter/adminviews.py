@@ -16,6 +16,7 @@ from websauna.system.form.resourceregistry import ResourceRegistry
 from websauna.system.form.schema import CSRFSchema
 from websauna.system.http import Request
 from websauna.system.user.utils import get_user_class
+from websauna.utils.time import now
 
 from .mailgun import MailgunError
 from .sender import send_newsletter
@@ -28,6 +29,17 @@ class NewsletterSend(CSRFSchema):
     subject = colander.SchemaNode(colander.String(), title="Newsletter subject")
 
     preview = colander.SchemaNode(colander.Boolean(), description="Is this a preview send.", default=True)
+
+    tags = colander.SchemaNode(colander.String(), title="Tag", description="Tags used for mailgun analytics", default="")
+    tags = colander.SchemaNode(
+        colander.String(),
+        description="""
+            Specify tag being sent to mailgun analytics (per line) (maximum 3 tags).
+            Default tags are: newsletter, subject line, sending time
+        """,
+        widget=deform.widget.TextAreaWidget(rows=4, cols=120),
+        missing="",
+    )
 
     import_subscribers = colander.SchemaNode(colander.Boolean(), description="Import userbase as new subscribers", default=True)
 
@@ -100,12 +112,20 @@ def newsletter(context: Admin, request: Request):
 
             try:
                 appstruct = form.validate(request.POST.items())
+                tags = appstruct.get("tags", "").split("\n")
+                tags = [e for e in tags if e]
+                if len(tags) == 0:
+                    tags = [
+                        "newsletter",
+                        appstruct["subject"],
+                        now().isoformat(),
+                    ]
 
                 if appstruct["preview"]:
-                    send_newsletter(request, appstruct["subject"], preview_email=appstruct["email"], import_subscribers=appstruct["import_subscribers"])
+                    send_newsletter(request, appstruct["subject"], preview_email=appstruct["email"], import_subscribers=appstruct["import_subscribers"], tags=tags)
                     messages.add(request, "Preview email sent.")
                 else:
-                    send_newsletter(request, appstruct["subject"], import_subscribers=appstruct["import_subscribers"])
+                    send_newsletter(request, appstruct["subject"], import_subscribers=appstruct["import_subscribers"], tags=tags)
                     messages.add(request, "Newsletter sent.")
 
                 return httpexceptions.HTTPFound(request.url)
