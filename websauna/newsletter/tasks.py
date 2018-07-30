@@ -69,7 +69,7 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
         import_all_users(mailgun, request.dbsession, mailing_list, tm=request.tm)
 
     logger.info("Sending out newsletter %s %s %s %s %s", domain, subject, to, from_, campaign, tags)
-    mailgun.send(domain, to, from_, subject, text, html, campaign, tags)
+    mailgun.send(domain, to, from_, subject, text, html, campaign, tags=tags)
 
     if not preview_email:
         # Only mark newsletter send if not preview

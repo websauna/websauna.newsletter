@@ -100,7 +100,7 @@ class Mailgun:
             "o:tracking": yesify(tracking),
             "o:tracking-clicks": yesify(tracking_clicks),
             "o:tracking-opens": yesify(tracking_opens),
-            "o:tag": ','.join(map(str, tags)),
+            "o:tag": tags,
         }
 
         if campaign:
