@@ -32,5 +32,5 @@ def test_send_news_letter(mailgun, populated_mailing_list, domain):
     campaign = "TAGGGGED"
     testmode = True
 
-    resp = mailgun.send(domain, to, from_, subject, text, html, campaign, testmode)
+    resp = mailgun.send(domain, to, from_, subject, text, html, campaign, testmode, ['tag1', 'tag2'])
     assert "id" in resp

@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 
 @task(base=ScheduleOnCommitTask, bind=True)
-def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, testmode, now_, import_subscribers):
+def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, testmode, now_, import_subscribers, tags):
     """Do user import and newsletter inside a Celery worker process.
 
     We carefully split transaction handling to several parts.
@@ -68,8 +68,8 @@ def send_newsletter_task(self: ScheduleOnCommitTask, subject, preview_email, tes
         logger.info("Importing subscribers")
         import_all_users(mailgun, request.dbsession, mailing_list, tm=request.tm)
 
-    logger.info("Sending out newsletter %s %s %s %s %s", domain, subject, to, from_, campaign)
-    mailgun.send(domain, to, from_, subject, text, html, campaign)
+    logger.info("Sending out newsletter %s %s %s %s %s", domain, subject, to, from_, campaign, tags)
+    mailgun.send(domain, to, from_, subject, text, html, campaign, tags=tags)
 
     if not preview_email:
         # Only mark newsletter send if not preview
