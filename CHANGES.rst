@@ -6,6 +6,8 @@ Changelog for Websauna Newsletter
 
 - After subscription, redirect user back to original url.
 
+- Support for Python 3.7.
+
 
 1.0a2 (2018-04-22)
 ------------------
