@@ -37,6 +37,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
@@ -53,6 +54,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     test_suite='websauna.newsletter',
+    python_requires='>=3.5.2',
     install_requires=[
         'websauna[celery]',
         'websauna.magiclogin'
@@ -75,7 +77,7 @@ setup(
         ],
         # Dependencies to make releases
         'dev': [
-            'websauna[dev]'
+            'websauna[dev,test]'
         ],
     },
 
