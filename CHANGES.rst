@@ -4,7 +4,7 @@ Changelog for Websauna Newsletter
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- After subscription, redirect user back to original url.
 
 
 1.0a2 (2018-04-22)
