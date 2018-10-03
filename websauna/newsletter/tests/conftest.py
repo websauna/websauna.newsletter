@@ -10,7 +10,7 @@ import pytest
 from websauna.newsletter.importer import import_all_users
 from websauna.newsletter.mailgun import Mailgun
 from websauna.system.core.utils import get_secrets
-from websauna.tests.utils import create_user
+from websauna.tests.test_utils import create_user
 
 MAILGUN_RESPONSES = {
     'https://api.mailgun.net/v3/lists/foobar@not-exist.com': {
