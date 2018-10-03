@@ -1,5 +1,28 @@
 This is a newsletter addon for `Websauna framework <https://websauna.org>`_. It is intended for automatic newsletter generation from the site content.
 
+.. |ci| image:: https://img.shields.io/travis/websauna/websauna.newsletter/master.svg?style=flat-square
+    :target: https://travis-ci.org/websauna/websauna.newsletter/
+
+.. |latest| image:: https://img.shields.io/pypi/v/websauna.newsletter.svg
+    :target: https://pypi.python.org/pypi/websauna.newsletter/
+    :alt: Latest Version
+
+.. |license| image:: https://img.shields.io/pypi/l/websauna.newsletter.svg
+    :target: https://pypi.python.org/pypi/websauna.newsletter/
+    :alt: License
+
+.. |versions| image:: https://img.shields.io/pypi/pyversions/websauna.newsletter.svg
+    :target: https://pypi.python.org/pypi/websauna.newsletter/
+    :alt: Supported Python versions
+
++-----------+-----------+
+| |versions|| |latest|  |
++-----------+-----------+
+| |ci|      | |license| |
++-----------+-----------+
+
+.. image:: https://websauna.org/theme/images/logo-768.png
+
 .. contents:: :local:
 
 Features
