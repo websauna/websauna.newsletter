@@ -64,7 +64,7 @@ setup(
         'test': [
             'codecov',
             'flake8',
-            'pytest>=3.0',
+            'pytest>=3.0,<4.0',
             'pytest-runner',
             'coverage',
             'flaky',
