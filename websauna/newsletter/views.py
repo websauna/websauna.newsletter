@@ -62,7 +62,7 @@ def subscribe_newsletter(request: Request):
             # Thank user and take them to the next page
             msg = "<strong>{email}</strong> has been subscribed to the newsletter.".format(email=email)
             msg_class = 'info'
-            messages.add(request, kind=msg_class, msg=msg, rich=True)
+            messages.add(request, kind=msg_class, msg=msg, html=True)
         except deform.ValidationFailure:
             # Render a form version where errors are visible next to the fields,
             # and the submitted values are posted back
